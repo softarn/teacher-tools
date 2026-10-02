@@ -1,11 +1,9 @@
-# Lärarverktyg
+# Ordplopp
 
-Statiska verktyg för klassrummet. Ingen byggprocess – öppna `index.html` eller servera mappen:
+Ord blinkar fram en kort stund – träna snabb ordavkodning. Läslistorna finns i `words.js`, med en översikt i `listor.html`.
+
+Ingen byggprocess – öppna `index.html` eller servera mappen:
 
 ```sh
 python3 -m http.server
 ```
-
-## Verktyg
-
-- **Ordplopp** (`ordplopp/`) – ord blinkar fram en kort stund. Ordlistan finns i `ordplopp/words.js` och sorteras automatiskt efter längd.
