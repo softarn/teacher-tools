@@ -112,6 +112,16 @@ body[data-view="stage"] .setup {
   color: var(--accent);
 }
 
+.list-overview-link {
+  justify-self: start;
+  color: var(--accent);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.list-overview-link:hover { text-decoration: underline; }
+
 .segmented {
   display: grid;
   grid-auto-columns: 1fr;
