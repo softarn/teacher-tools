@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ordplopp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/theme.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="toolbar">
+    <a class="brand" href="../">Ordplopp</a>
+
+    <button id="playButton" class="play" type="button" aria-pressed="false">
+      <span class="play-icon" aria-hidden="true"></span>
+      <span class="play-label">Starta</span>
+    </button>
+
+    <div class="settings">
+      <div class="group">
+        <span class="label">Tid synligt</span>
+        <div class="stepper">
+          <button type="button" data-step="visible" data-dir="-1" aria-label="Minska tid synligt">−</button>
+          <output id="visibleValue"></output>
+          <button type="button" data-step="visible" data-dir="1" aria-label="Öka tid synligt">+</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <span class="label">Tid mellan ord</span>
+        <div class="stepper">
+          <button type="button" data-step="between" data-dir="-1" aria-label="Minska tid mellan ord">−</button>
+          <output id="betweenValue"></output>
+          <button type="button" data-step="between" data-dir="1" aria-label="Öka tid mellan ord">+</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <span class="label">Ordlängder</span>
+        <div id="lengths" class="chips"></div>
+      </div>
+
+      <div class="group">
+        <span class="label">Bokstäver</span>
+        <div class="chips">
+          <button id="caseButton" type="button" class="chip" aria-pressed="false">ABC</button>
+        </div>
+      </div>
+    </div>
+
+    <button id="fullscreenButton" class="icon-button" type="button" aria-label="Helskärm" title="Helskärm (F)">⛶</button>
+  </header>
+
+  <main class="stage">
+    <div id="word" class="word" aria-live="off"></div>
+    <p id="hint" class="hint">Tryck <kbd>Mellanslag</kbd> eller <strong>Starta</strong></p>
+  </main>
+
+  <script src="words.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
