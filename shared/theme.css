@@ -1,27 +1,39 @@
 :root {
-  --bg: #fbf8f3;
+  --bg: #f7f4ee;
   --surface: #ffffff;
-  --surface-2: #f2ede4;
-  --text: #1f1d1a;
-  --muted: #6b655c;
-  --border: #e3dccf;
-  --accent: #2f6fd6;
+  --surface-2: #f0ece4;
+  --surface-3: #e6e0d5;
+  --raised: #ffffff;
+  --text: #1d1b22;
+  --muted: #6c6873;
+  --border: #e6e0d6;
+  --accent: #5b4cf0;
+  --accent-hover: #4b3ce0;
+  --accent-soft: #eceaff;
   --accent-text: #ffffff;
-  --radius: 12px;
-  --font: "Andika", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --shadow: 0 1px 2px rgba(29, 27, 34, 0.04), 0 8px 32px rgba(29, 27, 34, 0.08);
+  --radius: 14px;
+  --radius-lg: 24px;
+  --font: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-read: "Andika", "Nunito", system-ui, sans-serif;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #17161a;
-    --surface: #222127;
-    --surface-2: #2c2a32;
-    --text: #f3f1ec;
-    --muted: #a39e95;
-    --border: #3a3842;
-    --accent: #6c9ef0;
-    --accent-text: #0e1420;
+  :root:not([data-theme="light"]) {
+    --bg: #141317;
+    --surface: #1e1d23;
+    --surface-2: #28272e;
+    --surface-3: #34323b;
+    --raised: #3d3b45;
+    --text: #f4f2ee;
+    --muted: #a19ca8;
+    --border: #2f2d35;
+    --accent: #9d93ff;
+    --accent-hover: #b0a8ff;
+    --accent-soft: #2b2845;
+    --accent-text: #14112b;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 32px rgba(0, 0, 0, 0.35);
     color-scheme: dark;
   }
 }
@@ -35,16 +47,30 @@ body {
   color: var(--text);
   font-family: var(--font);
   font-size: 16px;
-  line-height: 1.4;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
 }
 
 button {
   font: inherit;
   color: inherit;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 :focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 2px;
 }
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: inherit;
+  text-decoration: none;
+}
+
+.logo svg { flex: none; }
