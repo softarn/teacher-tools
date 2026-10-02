@@ -1,5 +1,4 @@
 (() => {
-  const LENGTHS = [2, 3, 4, 5, 6, 7, 8, 9];
   const STORAGE_KEY = "ordplopp.settings";
   const IDLE_AFTER_MS = 2500;
   const COUNTDOWN_MS = 650;
@@ -12,13 +11,7 @@
     { name: "Blixt", visible: 0.2, between: 1 },
   ];
 
-  const defaults = { visible: 0.75, between: 1.5, lengths: [3, 4], uppercase: false };
-
-  const wordsByLength = {};
-  for (const word of new Set(WORDS)) {
-    const length = [...word].length;
-    (wordsByLength[length] ||= []).push(word);
-  }
+  const defaults = { visible: 0.75, between: 1.5, listIds: ["lista-1"], uppercase: false };
 
   const settings = loadSettings();
   let running = false;
@@ -31,7 +24,7 @@
 
   const $ = id => document.getElementById(id);
   const el = {
-    lengths: $("lengths"),
+    readingLists: $("readingLists"),
     wordCount: $("wordCount"),
     presets: $("presets"),
     visibleSlider: $("visibleSlider"),
@@ -56,15 +49,15 @@
   // ---------- Setup ----------
 
   function buildSetup() {
-    for (const length of LENGTHS) {
+    for (const list of READING_LISTS) {
       const button = document.createElement("button");
       button.type = "button";
-      button.className = "length";
-      button.dataset.length = length;
-      button.setAttribute("aria-label", `${length} bokstäver`);
-      button.innerHTML = `<strong>${length}</strong><span class="dots">${"<i></i>".repeat(length)}</span>`;
-      button.addEventListener("click", () => toggleLength(length));
-      el.lengths.append(button);
+      button.className = "reading-list";
+      button.dataset.listId = list.id;
+      button.setAttribute("aria-label", `${list.name}: ${list.description}, ${list.words.length} ord`);
+      button.innerHTML = `<strong>${list.name}</strong><span>${list.description}</span><small>${list.words.length} ord</small>`;
+      button.addEventListener("click", () => toggleList(list.id));
+      el.readingLists.append(button);
     }
 
     for (const preset of PRESETS) {
@@ -82,21 +75,24 @@
     }
   }
 
-  function toggleLength(length) {
-    const index = settings.lengths.indexOf(length);
-    index >= 0 ? settings.lengths.splice(index, 1) : settings.lengths.push(length);
+  function toggleList(listId) {
+    const index = settings.listIds.indexOf(listId);
+    index >= 0 ? settings.listIds.splice(index, 1) : settings.listIds.push(listId);
     bag = [];
     saveSettings();
     renderSetup();
   }
 
   function renderSetup() {
-    el.lengths.querySelectorAll(".length").forEach(button => {
-      button.setAttribute("aria-pressed", settings.lengths.includes(Number(button.dataset.length)));
+    el.readingLists.querySelectorAll(".reading-list").forEach(button => {
+      button.setAttribute("aria-pressed", settings.listIds.includes(button.dataset.listId));
     });
 
     const count = availableWords().length;
-    el.wordCount.textContent = count ? `${count} ord` : "Välj minst en längd";
+    const listCount = settings.listIds.length;
+    el.wordCount.textContent = count
+      ? `${count} ord · ${listCount} ${listCount === 1 ? "lista" : "listor"}`
+      : "Välj minst en lista";
     el.wordCount.classList.toggle("warn", !count);
     el.start.disabled = !count;
 
@@ -326,7 +322,12 @@
   // ---------- Helpers ----------
 
   function availableWords() {
-    return settings.lengths.flatMap(length => wordsByLength[length] || []);
+    const selected = new Set(settings.listIds);
+    return [...new Set(
+      READING_LISTS
+        .filter(list => selected.has(list.id))
+        .flatMap(list => list.words)
+    )];
   }
 
   // Draw from a shuffled bag so every word is shown once before any repeats.
@@ -363,9 +364,13 @@
   function loadSettings() {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-      return { ...defaults, ...saved, lengths: [...(saved?.lengths ?? defaults.lengths)] };
+      const validIds = new Set(READING_LISTS.map(list => list.id));
+      const listIds = Array.isArray(saved?.listIds)
+        ? saved.listIds.filter(id => validIds.has(id))
+        : [...defaults.listIds];
+      return { ...defaults, ...saved, listIds };
     } catch {
-      return { ...defaults, lengths: [...defaults.lengths] };
+      return { ...defaults, listIds: [...defaults.listIds] };
     }
   }
 
