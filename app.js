@@ -276,8 +276,8 @@
     el.play.addEventListener("click", togglePause);
     el.repeat.addEventListener("click", repeatLast);
     $("settingsButton").addEventListener("click", leaveStage);
-    $("fasterButton").addEventListener("click", () => changeTempo(-1));
-    $("slowerButton").addEventListener("click", () => changeTempo(1));
+    $("fasterButton").addEventListener("click", () => changeTempo(1));
+    $("slowerButton").addEventListener("click", () => changeTempo(-1));
     $("fullscreenButton").addEventListener("click", toggleFullscreen);
 
     // Tapping anywhere on the stage (outside the dock) pauses or resumes.
@@ -307,10 +307,10 @@
         repeatLast();
       } else if (event.key === "+" || event.key === "ArrowUp") {
         event.preventDefault();
-        changeTempo(-1);
+        changeTempo(1);
       } else if (event.key === "-" || event.key === "ArrowDown") {
         event.preventDefault();
-        changeTempo(1);
+        changeTempo(-1);
       }
     });
 
